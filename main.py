@@ -25,6 +25,24 @@ try:
 except Exception:
     maintenance_costs = data.maintenance_costs.archivedDatabase()
 
-print(car_prices)
-print(fuel_efficiency)
-print(maintenance_costs)
+#  dictionary with cars for which there is data
+car_options = {}
+for key, value in car_prices.items():
+    temporary_dict = {}
+    try:
+        temporary_dict['car price'] = value
+        temporary_dict['maintenance cost'] = maintenance_costs[key]
+        temporary_dict['fuel efficiency'] = fuel_efficiency[key]
+        car_options[key] = temporary_dict
+    except Exception:
+        continue
+
+print(len(car_options))
+
+
+def mainFunc():
+    """Initiate program with menu."""
+
+
+if __name__ == '__main__':
+    mainFunc()

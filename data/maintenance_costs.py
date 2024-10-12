@@ -25,6 +25,7 @@ def refreshedDatabase():
     for row in rows:
         cols = row.find_all('td')  # retrieve all columns for given row
         cleaned_key = re.match(match_make_model, cols[1].text.strip()).group(0)
+        cleaned_key = cleaned_key.upper()
         cleaned_value = int(cols[2].text.strip().
                             replace('$', '').replace(',', ''))
         monthly_maintenance[cleaned_key] = round((cleaned_value/10)/12, 2)

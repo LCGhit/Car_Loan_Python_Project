@@ -12,25 +12,33 @@ import requests  # for web scraping
 
 def refreshedDatabase():
     """Retrieve fresh data from the source."""
-    url_fuel = 'https://www.fleetnews.co.uk/news/real-world-tests\
-    -reveal-cars-with-best-and-worse-mpg-fuel-economy'
+    url_fuel = 'https://www.fueleconomy.gov/feg/byfuel/Hybrid2024.shtml'
     response = requests.get(url_fuel)
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    table = soup.find_all('table')[0]  # retrieve table
-    table.find('tr').decompose()
-    tbody_01 = table.tbody  # retrieve body of table
-
-    rows = tbody_01.find_all('tr')  # retrieve rows of table
-
-    fuel_efficiency = {}
+    # retrieve car make and model
+    rows = soup.find_all('a', {'class': 'ymm'})
+    car_make_model = []
     match_make_model = '(?i:[a-z]+[\\s-][a-z0-9]*)'  # retrieve first two words
-    for row in rows:
-        cols = row.find_all('td')  # retrieve all columns for given row
-        cleaned_key = re.match(match_make_model, cols[0].text.strip()).group(0)
-        cleaned_value = int(cols[1].text.strip().
-                            replace('mpg', '').replace('.', ''))
-        fuel_efficiency[cleaned_key] = round(cleaned_value/10, 2)
+    for i in range(len(rows)):
+        car_make_model.append(rows[i])
+        car_make_model[i] = car_make_model[i].decode_contents()
+        car_make_model[i] = re.search(match_make_model,
+                                      car_make_model[i]).group(0).upper()
+
+    # retrieve mpg
+    # change miles per gallon to kilometers per liter (rounded)
+    mpg_raw_data = soup.find_all('div', {'class': 'mpgSummary'})
+    mpg = []
+    km_per_liter = (1609344/3785412)
+    for i in range(len(mpg_raw_data)):
+        mpg.append(re.search('[0-9]+', mpg_raw_data[i].text).group(0))
+        mpg[i] = round(int(mpg[i])*km_per_liter, 2)
+
+    # match car name with mpg
+    fuel_efficiency = {}
+    for i in range(0, len(mpg)):
+        fuel_efficiency[car_make_model[i]] = mpg[i]
 
     export = json.dumps(fuel_efficiency)
     with open('data/offline_database/fuel_efficiency.json', 'w') as f:
@@ -42,4 +50,3 @@ def archivedDatabase():
     """Retrieve archived offline data."""
     with open('data/offline_database/fuel_efficiency.json', 'r') as file:
         return json.load(file)
-    # return json.loads('offline_database/fuel_efficiency.json')

@@ -12,8 +12,11 @@ import requests  # for web scraping
 
 def refreshedDatabase():
     """Retrieve fresh data from the source."""
-    url_car_prices = 'https://www.kbb.com/car-finder/\
-    ?intent=new&pricerange=0-max'
+    url_car_prices = 'https://www.kbb.com/car-finder/?categories=sedan|coupe|\
+    hatchback|suv|crossover|vanminivan|pickup|wagon|convertible&manufacturers=\
+    honda|hyundai|kia|toyota|volkswagen|volvo|subaru|mercedesbenz|bmw|fiat|\
+    audi|acura|ford|gmc|mazda|mitsubishi|nissan|suzuki|daewoo&fueltypes=hybrid|\
+    electric|gasoline|diesel'
     response = requests.get(url_car_prices)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -22,7 +25,7 @@ def refreshedDatabase():
     for i in range(0, len(car_make_model)):
         car_make_model[i] = car_make_model[i].decode_contents()
         car_make_model[i] = re.search(match_make_model,
-                                      car_make_model[i]).group(0)
+                                      car_make_model[i]).group(0).upper()
 
     price = soup.find_all('div', {'class': 'css-fpbjth'})
     clean_price = []
@@ -52,4 +55,3 @@ def archivedDatabase():
     """Retrieve archived offline data."""
     with open('data/offline_database/car_prices.json', 'r') as file:
         return json.load(file)
-    # return json.loads('offline_database/car_prices.json')
