@@ -1,35 +1,30 @@
-from fastapi import FastAPI
-from models import User
+"""User interface and main functions."""
+
+import data.car_prices
+import data.fuel_efficiency
+import data.maintenance_costs
 
 
-#  calling fastapi library through variable 'app'
-app = FastAPI()
+# Download fresh data from sources.
+# In case of error, retrieve data from local files.
+car_prices = []
+fuel_efficiency = []
+maintenance_costs = []
+try:
+    car_prices = data.car_prices.refreshedDatabase()
+except Exception:
+    car_prices = data.car_prices.archivedDatabase()
 
+try:
+    fuel_efficiency = data.fuel_efficiency.refreshedDatabase()
+except Exception:
+    fuel_efficiency = data.fuel_efficiency.archivedDatabase()
 
-users = {
-    '1': {
-        'name': 'Tom',
-        'age': 45
-    },
-    '2': {
-        'name': 'Alice',
-        'age': 32
-    }
-}
+try:
+    maintenance_costs = data.maintenance_costs.refreshedDatabase()
+except Exception:
+    maintenance_costs = data.maintenance_costs.archivedDatabase()
 
-#  decorators add more functionalities to functions
-#  .get is the method
-#  '/' is the route, the address to the webpage that will give us answer
-
-@app.get('/users')
-
-
-def root():
-    return users
-
-
-@app.get('/users/{user_id}')  # Another decorator. The {} expects parameter.
-def get_user(user_id: str):  # Here we define that the parameter should be a string.
-    return users[user_id]
-
-#  On the browser running http://127.0.0.1:8000/users/1 returns user 1
+print(car_prices)
+print(fuel_efficiency)
+print(maintenance_costs)
