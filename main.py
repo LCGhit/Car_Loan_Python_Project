@@ -1,10 +1,11 @@
 """User interface and main functions."""
 
+import re
+
 import data.car_prices
 import data.fuel_efficiency
 import data.maintenance_costs
 
-import re
 
 def retrieveScrapedData(module):
     """Return data from given scrapper module.
