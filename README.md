@@ -25,7 +25,7 @@ This project scrapes data from websites in order to acquire information about ca
 
 You can now call the program: ```python3 /directory/to/projectRoot/main.py```
 
-[Usage example: ](demo.cast)
+[!Usage example: ](demo.cast)
 
 1) pick a car from the list with which you are presented
 2) pick a second car from the remaining options
