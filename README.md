@@ -1,12 +1,12 @@
 <!-- ABOUT -->
 ## About
 
-Python car loan simulator program. Allows user to pick two cars he is interested in, and shows the breakdown of the monthly expenses associated with each, including loan payments.
+A Python car loan simulator. Allows user to pick two cars he is interested in, and shows the breakdown of the monthly expenses associated with each, including loan payments.
 
 
 <!-- OVERVIEW -->
 ## Overview
-This project scrapes data from websites in order to acquire information about cars fuel efficiency, estimated maintenance cost, and price. This data is then processed in order to compile the relevant information for each car (cars with missing data are discarded). Afterwards, some more information is requested to the user. Finally, an analysis is run, and a summary is presented to the user, with a suggestion of the most affordable of the options.
+This project scrapes data from websites in order to acquire information about cars fuel efficiency, estimated maintenance cost, and price. This data is then processed in order to compile the relevant information for each car (cars with missing data are discarded). Afterwards, some more information is requested to the user. Finally, an analysis is run, and a summary is presented, with a suggestion of the most affordable option.
 
 
 <!-- GETTING STARTED -->
