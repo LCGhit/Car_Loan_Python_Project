@@ -4,6 +4,7 @@ import data.car_prices
 import data.fuel_efficiency
 import data.maintenance_costs
 
+import re
 
 def retrieveScrapedData(module):
     """Return data from given scrapper module.
@@ -38,7 +39,7 @@ def matchDictionaries(keys, dict_array):
     return complete_dict
 
 
-def validateNum(start, end, message):
+def validateNum(start, end, message, allowFloat):
     """Validate number from range(start, end)."""
     flag = 'y'
     result = 0
@@ -48,6 +49,12 @@ def validateNum(start, end, message):
         if (user_input.isdigit()):
             if (int(user_input) in range(start, end)):
                 result = float(user_input)
+                flag = 'n'
+        elif (re.search('[0-9]+\\.[0-9]+', user_input) != []) and (
+                allowFloat == 'allowFloat'):
+            user_input = float(user_input)
+            if (int(user_input) in range(start, end)):
+                result = user_input
                 flag = 'n'
             else:
                 print(f'Out of range. Insert a number from {start} to {end-1}')
@@ -61,7 +68,7 @@ def pickDictKey(myDict, message):
     dict_keys = list(myDict.keys())
     for i in range(len(dict_keys)):
         print(f'{i+1}. {dict_keys[i]}')
-    selection = validateNum(1, len(list(myDict))+1, message)
+    selection = validateNum(1, len(list(myDict))+1, message, '')
     return dict_keys[int(selection)-1]
 
 
@@ -132,13 +139,14 @@ def mainFunc():
     price_gas_liter = 1.5
     km_per_week = validateNum(0, 5000,
                               'How many kilometers per week '
-                              + 'do you drive on average? => ')
+                              + 'do you drive on average? => ', 'allowFloat')
     downpayment_percent = validateNum(0, 21,
                                       'How much would you like to pay upfront?'
-                                      + '\n(percentage: 0 to 20) => ')/100
+                                      + '\n(percentage: 0 to 20) => ',
+                                      'allowFloat')/100
     loan_period = validateNum(36, 85,
                               'How long will you take to pay the loan?\n'
-                              + '(timeframe 36 to 85 months) => ')
+                              + '(timeframe 36 to 85 months) => ', '')
 
     # compute and aggregate info for each chosen car in dictionary
     cars_expenses = {first_car: {}, second_car: {}}
