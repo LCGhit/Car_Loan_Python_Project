@@ -47,14 +47,14 @@ def validateNum(start, end, message, allowFloat):
     while (flag == 'y'):
         user_input = input(message)
         user_input = user_input.strip().lower()
-        if (user_input.isdigit()):
-            if (int(user_input) in range(start, end)):
+        if user_input.isdigit():
+            if int(user_input) in range(start, end):
                 result = float(user_input)
                 flag = 'n'
         elif (re.search('[0-9]+\\.[0-9]+', user_input) != []) and (
                 allowFloat == 'allowFloat'):
             user_input = float(user_input)
-            if (int(user_input) in range(start, end)):
+            if int(user_input) in range(start, end):
                 result = user_input
                 flag = 'n'
             else:
@@ -112,7 +112,7 @@ def compareCarsCosts(myDict):
 
     totals_keys = list(totals.keys())
     suggestion = ''
-    if (totals[totals_keys[0]] > totals[totals_keys[1]]):
+    if totals[totals_keys[0]] > totals[totals_keys[1]]:
         suggestion = totals_keys[1]
     else:
         suggestion = totals_keys[0]
