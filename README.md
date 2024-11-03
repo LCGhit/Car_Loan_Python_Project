@@ -13,11 +13,10 @@ This project scrapes data from websites in order to acquire information about ca
 ## Getting Started
 
 - Assuming you are currently in the directory created for the project:
-- Start off by creating a python environment: ```python3 -m venv venv```
+- Clone the repository: ```git clone git@github.com:LCGhit/Car_Loan_Python_Project.git```
+- Create a python environment: ```python3 -m venv venv```
 - Activate the newly created environment: ```source venv/bin/activate```
-- Install the Beautiful soup library: ```pip3 install beautifulsoup4```
-- Install the requests library: ```pip3 install requests```
-- You can now clone the repository: ```git clone git@github.com:LCGhit/Car_Loan_Python_Project.git```
+- Install dependencies: ```pip install -r requirements.txt```
 
 
 <!-- USAGE EXAMPLES -->
